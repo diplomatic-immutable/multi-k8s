@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t diplomaticimmutable/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true diplomaticimmutable/react-test npm test
+
+after_success:
+  - docker build -t diplomaticimmutable/multi-client ./client
+  - docker build -t diplomaticimmutable/multi-server ./server
+  - docker build -t diplomaticimmutable/multi-nginx ./nginx
+  - docker build -t diplomaticimmutable/multi-worker ./worker
+  # Log in to Docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push diplomaticimmutable/multi-client
+  - docker push diplomaticimmutable/multi-server
+  - docker push diplomaticimmutable/multi-worker
+  - docker push diplomaticimmutable/multi-nginx

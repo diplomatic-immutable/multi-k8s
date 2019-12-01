@@ -16,7 +16,7 @@ spec:
         - name: worker
           image: diplomaticimmutable/multi-worker
           env:
-            - name: REDIS-HOST
+            - name: REDIS_HOST
               value: redis-service-cluster-ip-service
             - name: REDIS_PORT
               value: "6379"

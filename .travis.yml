@@ -14,11 +14,7 @@ before_install:
   - gcloud config set project multi-k8s-260720
   - gcloud config set compute/zone us-east1-b
   - gcloud container clusters get-credentials multi-cluster
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  - sudo apt-get update
-  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - echo "$DOCKER_PASSWORD"|docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t diplomaticimmutable/react-test -f ./client/Dockerfile.dev ./client
 
 script:

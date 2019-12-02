@@ -1,0 +1,20 @@
+apiVersion: certmanager.k8s.io/v1alpha2
+kind: Certificate
+metadata:
+  name: shrimpdomain-com-tls
+spec:
+  secretName: shrimpdomain-com
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: shrimpdomain.com
+  dnsNames:
+    - shrimpdomain.com
+    - www.shrimpdomain.com
+  acme:
+    config:
+      - http01:
+          ingressClass: nginx
+        domains:
+          - shrimpdomain.com
+          - www.shrimpdomain.com
